@@ -6,7 +6,7 @@ var jwt = require('express-jwt');
 var dotenv = require('dotenv');
 var cookieParser = require('cookie-parser');
 
-dotenv.load();
+// dotenv.load();
 
 var authenticate = jwt({
   secret: new Buffer(process.env.AUTH0_CLIENT_SECRET, 'base64'),
@@ -29,20 +29,27 @@ app.configure(function () {
   app.use(express.json());
 
   app.use(cookieParser());
-  app.use('/secured', authenticate);
+
   app.use(cors());
 
   app.use(app.router);
 });
 
+app.use(express.static('.'));
+
 
 app.get('/ping', function(req, res) {
-  res.send(200, {text: "All good. You don't need to be authenticated to call this", token: req.cookies.id_token});
+  res.send(200, {text: "All good. You don't need to be authenticated to call this"});
 });
 
-app.get('/secured/ping', function(req, res) {
+app.get('/secured/ping', authenticate, function(req, res) {
   res.send(200, {text: "All good. You only get this message if you're authenticated"});
 })
+
+app.post('/secured/authorize-cookie', authenticate, function(req, res) {
+  res.cookie('id_token', req.body.token, { expires: new Date(Date.now() + 36000), httpOnly: true });
+  res.send(200, { message: 'Cookie set!' });
+});
 
 var port = process.env.PORT || 3001;
 
