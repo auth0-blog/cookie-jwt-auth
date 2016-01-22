@@ -38,3 +38,15 @@ AUTH0_CLIENT_ID=myCoolClientId
 ```
 
 You need to create a file that calls Auth0's API for a JWT and stores it as a cookie. The example will also handle JWTs sent as `Authorization` headers.
+
+## Issue Reporting
+
+If you have found a bug or if you have a feature request, please report them at this repository issues section. Please do not report security vulnerabilities on the public GitHub issue tracker. The [Responsible Disclosure Program](https://auth0.com/whitehat) details the procedure for disclosing security issues.
+
+## Author
+
+[Auth0](auth0.com)
+
+## License
+
+This project is licensed under the MIT license. See the [LICENSE](LICENSE) file for more info.
